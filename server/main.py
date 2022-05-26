@@ -1,13 +1,13 @@
 import socket
 
 SIZE = 1024
-FORMAT = "utf-8"
+ENCODING_FORMAT = "utf-8"
 
 
-def create_server_instance(ip, port, network_layer_protocol=socket.AF_INET,
-                           transport_layer_protocol=socket.SOCK_STREAM):
+def create_server_socket(ip, port, network_layer_protocol=socket.AF_INET,
+                         transport_layer_protocol=socket.SOCK_STREAM):
     print("[STARTING] Server is starting.")
-    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server = socket.socket(network_layer_protocol, transport_layer_protocol)
     server.bind((ip, port))
     print(f'ip:{ip}, port:{port}')
     server.listen()
@@ -17,28 +17,30 @@ def create_server_instance(ip, port, network_layer_protocol=socket.AF_INET,
 
 
 def main():
-    server = create_server_instance(socket.gethostbyname(socket.gethostname()), 10203)
+    server = create_server_socket('127.0.0.1', 10203)
 
     while True:
         conn, addr = server.accept()
         print(f"[NEW CONNECTION] {addr} connected.")
 
         """ Receiving the filename from the client. """
-        filename = conn.recv(SIZE).decode(FORMAT)
-        print(f"[RECV] Receiving the filename {filename}")
-        file = open(filename, "w")
-        conn.send("Filename received.".encode(FORMAT))
+        filename = conn.recv(SIZE).decode(ENCODING_FORMAT)
+        print(f"[RECV] Receiving the filename {filename}. ({addr})")
 
         """ Receiving the file data from the client. """
-        data = conn.recv(SIZE).decode(FORMAT)
-        print(f"[RECV] Receiving the file data.")
-        file.write(data)
-        conn.send("File data received".encode(FORMAT))
+        data = bytes()
+        while True:
+            buffer = conn.recv(SIZE)
+            if not buffer:
+                break
 
-        """ Closing the file. """
-        file.close()
+            data += buffer
+        print(f"[RECV] Receiving the file data. ({addr})")
 
-        """ Closing the connection from the client. """
+        with open(filename.split('/')[-1], 'wb') as file:
+            file.write(data)
+        print(f'[RECV] file received! ({addr})')
+
         conn.close()
         print(f"[DISCONNECTED] {addr} disconnected.")
 
