@@ -57,8 +57,8 @@ class ConnectionWindow(QDialog):
         try:
             with open(PREV_CONNECTION_FILEPATH, 'r') as prev_connection:
                 IP, PORT = prev_connection.readlines()
-                self.ip_line.setText(IP)
-                self.port_line.setText(PORT)
+                self.ip_line.setText(IP.strip())
+                self.port_line.setText(PORT.strip())
         except Exception as e:
             print(f'Warning: previous connection file error!: {e.args}')
 

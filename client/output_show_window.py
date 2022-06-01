@@ -4,8 +4,8 @@ from PyQt6.QtWidgets import QTextEdit, QVBoxLayout, QDialog
 class ShowWindow(QDialog):
     def __init__(self, output: str):
         super().__init__()
-        self.setWindowTitle('Connecting to the server')
-        self.setFixedSize(250, 150)
+        self.setWindowTitle('Output')
+        self.setFixedSize(700, 600)
 
         self.output = output
 
@@ -16,6 +16,6 @@ class ShowWindow(QDialog):
 
     def add_widgets(self):
         self.output_edit = QTextEdit()
-        self.output_edit.setStyleSheet('font-size: 18px; height: 25px; color: blue')
+        self.output_edit.setStyleSheet('font-size: 18px; height: 25px;')
         self.output_edit.setText(self.output)
         self.main_layout.addWidget(self.output_edit)

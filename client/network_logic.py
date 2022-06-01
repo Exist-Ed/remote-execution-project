@@ -13,9 +13,12 @@ def create_client_socket(ip, port,
                          network_layer_protocol=socket.AF_INET,
                          transport_layer_protocol=socket.SOCK_STREAM):
     client = socket.socket(network_layer_protocol, transport_layer_protocol)
-    client.connect((ip.strip(), port))
-
-    return client
+    try:
+        client.connect((ip.strip(), port))
+        return client
+    except Exception as e:
+        print(e)
+        return None
 
 
 def creating_archive_of_files(filepaths: list, orchestration_script: str):
@@ -53,6 +56,8 @@ def receive_output(client):
 
 def main(ip: str, port: int, filepaths: list, orchestration_script: str):
     client = create_client_socket(ip, port)
+    if not client:
+        return 'Connection error!'
 
     creating_archive_of_files(filepaths, orchestration_script)
     send_archive(client)
@@ -61,7 +66,3 @@ def main(ip: str, port: int, filepaths: list, orchestration_script: str):
     client.close()
 
     return output.decode(ENCODING_FORMAT)
-
-
-if __name__ == "__main__":
-    main('127.0.0.1', 10203, [], '#!bin/bash\necho hello')

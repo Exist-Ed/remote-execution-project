@@ -1,6 +1,7 @@
 import socket
 import zipfile
 import subprocess
+from select import select
 from shutil import rmtree
 from os import remove
 
@@ -17,39 +18,45 @@ def create_server_socket(ip, port, network_layer_protocol=socket.AF_INET,
     server.bind((ip, port))
     print(f'ip:{ip}, port:{port}')
     server.listen()
+
     print("[LISTENING] Server is listening.")
 
     return server
 
 
 def receiving_archive(conn, addr):
+    print(f"[RECV] Receiving the data files! ({addr})")
+
     data = bytes()
     while True:
-        buffer = conn.recv(SIZE)
-        if not buffer:
+        if select([conn], [], [], 2)[0]:
+            buffer = conn.recv(SIZE)
+            data += buffer
+        else:
             break
 
-        data += buffer
-    print(f"[RECV] Receiving the data files. ({addr})")
-
-    with open(ARCHIVE_PATH, 'wb') as file:
-        file.write(data)
-    print(f'[RECV] files received! ({addr})')
+    with open(ARCHIVE_PATH, 'wb') as archive:
+        archive.write(data)
 
     with zipfile.ZipFile(ARCHIVE_PATH, 'r') as archive:
         archive.extractall(DATA_PATH)
     remove(ARCHIVE_PATH)
 
+    print(f'[RECV] files received! ({addr})')
+
 
 def run_task(addr):
+    print(f'[TASK] Task execution starts! {addr}')
     subprocess.call('./run_task.sh', shell=True)
-    print(f'Task completed! {addr}')
+    print(f'[TASK] Task completed! {addr}')
 
 
 def send_task_output(conn, addr):
-    with open(DATA_PATH + '/output.txt', 'r') as output:
-        conn.send(output.read().encode(ENCODING_FORMAT))
-    print(f'Task output sent to {addr}')
+    with open(DATA_PATH + '/rep_output.txt', 'r') as output:
+        data = output.read()
+        conn.send(data.encode(ENCODING_FORMAT))
+        print(data)
+    print(f'[SEND] Task output send to {addr}')
 
 
 def main():
