@@ -60,7 +60,7 @@ class ConnectionWindow(QDialog):
                 self.ip_line.setText(IP)
                 self.port_line.setText(PORT)
         except Exception as e:
-            print(f'previous connection file error!\n{e.args}')
+            print(f'Warning: previous connection file error!: {e.args}')
 
     def connect_action(self):
         global IP, PORT

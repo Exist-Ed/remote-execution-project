@@ -1,44 +1,11 @@
-# import socket
-#
-# ENCODING_FORMAT = "utf-8"
-# SIZE = 1024
-#
-#
-# def create_client_socket(ip, port, network_layer_protocol=socket.AF_INET, transport_layer_protocol=socket.SOCK_STREAM):
-#     client = socket.socket(network_layer_protocol, transport_layer_protocol)
-#     client.connect((ip, port))
-#
-#     return client
-#
-#
-# def main():
-#     client = create_client_socket('127.0.0.1', 10203)
-#
-#     filename = input('filename:')
-#
-#     """ Sending the filename to the server. """
-#     client.send(filename.encode(ENCODING_FORMAT))
-#
-#     """ Sending the file data to the server. """
-#     with open(filename, "br") as file:
-#         data = file.read()
-#     client.send(data)
-#
-#     client.close()
-#
-#
-# if __name__ == "__main__":
-#     main()
-#
-
-
 import sys
 
-from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QHBoxLayout, QListWidget, QPushButton, QGridLayout, \
-    QFileDialog, QAbstractItemView, QMessageBox, QLabel, QTextEdit, QVBoxLayout, QListWidgetItem
-from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QApplication, QWidget, QListWidget, QPushButton, QGridLayout, \
+    QFileDialog, QAbstractItemView, QLabel, QTextEdit, QVBoxLayout, QListWidgetItem
 
 import connection_window
+import network_logic
+import output_show_window
 
 FILEPATHS = []
 
@@ -148,7 +115,11 @@ class MainWindow(QWidget):
                     break
 
     def run_button_clicked_action(self):
-        ...
+        IP = connection_window.IP
+        Port = connection_window.PORT
+
+        response = network_logic.main(IP, Port, FILEPATHS, self.orchestration_script_edit.toPlainText())
+        output_show_window.ShowWindow(response).exec()
 
 
 if __name__ == '__main__':
