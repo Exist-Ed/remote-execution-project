@@ -3,7 +3,7 @@ from PyQt6.QtWidgets import QLineEdit, QHBoxLayout, QPushButton, QLabel, QVBoxLa
 IP = str()
 PORT = int()
 
-PREV_CONNECTION_FILEPATH = 'prev_connection.txt'
+PREV_CONNECTION_FILEPATH = '../prev_connection.txt'
 
 
 class ConnectionWindow(QDialog):
