@@ -6,10 +6,12 @@ from select import select
 from shutil import rmtree
 from os import remove
 
-SIZE = 1024
+MSG_SIZE = 1024
 ENCODING_FORMAT = "utf-8"
 ARCHIVE_PATH = 'rep_files.zip'
 DATA_PATH = '/tmp/rep_data'
+DEFAULT_IP = "127.0.0.1"
+DEFAULT_PORT = 10203
 
 
 def get_ip_and_port():
@@ -20,7 +22,10 @@ def get_ip_and_port():
     parser.add_argument('-port', dest='PORT', type=int, help='sets the server port. Default: 10203')
 
     args = parser.parse_args()
-    return args['ip'], args['port']
+    ip = args.IP if args.IP else DEFAULT_IP
+    port = args.PORT if args.PORT else DEFAULT_PORT
+
+    return ip, port
 
 
 def create_server_socket(ip, port, network_layer_protocol=socket.AF_INET,
@@ -42,7 +47,7 @@ def receiving_archive(conn, addr):
     data = bytes()
     while True:
         if select([conn], [], [], 2)[0]:
-            buffer = conn.recv(SIZE)
+            buffer = conn.recv(MSG_SIZE)
             data += buffer
         else:
             break

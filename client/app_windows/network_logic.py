@@ -6,7 +6,7 @@ from os.path import basename
 ENCODING_FORMAT = 'utf-8'
 ARCHIVE_PATH = 'rep_files.zip'
 ORCHESTRATION_SCRIPT_PATH = 'rep_orchestration_script.sh'
-SIZE = 1024
+MSG_SIZE = 1024
 
 
 def create_client_socket(ip, port,
@@ -45,7 +45,7 @@ def send_archive(client):
 def receive_output(client):
     output = bytes()
     while True:
-        buffer = client.recv(SIZE)
+        buffer = client.recv(MSG_SIZE)
         if not buffer:
             break
 
