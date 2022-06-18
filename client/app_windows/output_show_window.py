@@ -6,6 +6,7 @@ class ShowWindow(QDialog):
         super().__init__()
         self.setWindowTitle('Output')
         self.setFixedSize(700, 600)
+        self.move(415, 10)
 
         self.output = output
 

@@ -8,14 +8,10 @@ After the client forms a set of files with the source code of the program and de
 
 # Optional arguments:
 
----
-
 * _-ip_ &emsp; sets the IP address of the server. __Default: 127.0.0.1__
 * _-port_ &emsp; sets the server port. __Default: 10203__
 
 # Examples:
-
----
 
 ```bash
 python main.py
@@ -34,7 +30,6 @@ Starts the server with IP: 168.182.0.1 on port 5555.
 
 # Installation
 
----
 After launching the terminal, go to the directory where you want to install the program and perform the following
 manipulations:
 

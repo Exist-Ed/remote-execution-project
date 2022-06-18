@@ -2,11 +2,10 @@
 
 Usage: _./run.sh_
 
-### Execute your program code in a container on a running remote server using a user-friendly interface.
+Execute your program code in a container on a running remote server using a user-friendly interface.
 
 # Installation
 
----
 After launching the terminal, go to the directory where you want to install the program and perform the following
 manipulations:
 

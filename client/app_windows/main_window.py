@@ -15,6 +15,7 @@ class MainWindow(QWidget):
         super().__init__()
         self.setWindowTitle('Remote execution project')
         self.setFixedSize(550, 600)
+        self.move(380, 10)
 
         self.main_layout = QGridLayout()
         self.main_layout.setSpacing(10)
