@@ -1,3 +1,4 @@
+import argparse
 import socket
 import zipfile
 import subprocess
@@ -9,6 +10,17 @@ SIZE = 1024
 ENCODING_FORMAT = "utf-8"
 ARCHIVE_PATH = 'rep_files.zip'
 DATA_PATH = '/tmp/rep_data'
+
+
+def get_ip_and_port():
+    parser = argparse.ArgumentParser(
+        description='Starts the server that executes the code sent by clients in the Docker container.')
+
+    parser.add_argument('-ip', dest='IP', help='sets the IP address of the server. Default: 127.0.0.1')
+    parser.add_argument('-port', dest='PORT', type=int, help='sets the server port. Default: 10203')
+
+    args = parser.parse_args()
+    return args['ip'], args['port']
 
 
 def create_server_socket(ip, port, network_layer_protocol=socket.AF_INET,
@@ -60,7 +72,8 @@ def send_task_output(conn, addr):
 
 
 def main():
-    server = create_server_socket('127.0.0.1', 10203)
+    ip, port = get_ip_and_port()
+    server = create_server_socket(ip, port)
 
     while True:
         conn, addr = server.accept()

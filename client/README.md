@@ -16,7 +16,7 @@ manipulations:
 
 2. Download the repository:
 ```bash
-git clone https://Exist_Ed@bitbucket.org/coherentprojects/coherent-training-nikolai-kursky.git
+git clone https://github.com/Exist-Ed/remote-execution-project.git
 ```
 3. Install the necessary dependencies:
 ```bash

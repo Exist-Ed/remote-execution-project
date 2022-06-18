@@ -1,6 +1,6 @@
 # remote-execution-project server
 
-Usage: _python main.py [OPTIONAL ARGUMENTS]_
+### Usage: _python main.py [OPTIONAL ARGUMENTS]_
 
 Starts the server that executes the code sent by clients in the Docker container.
 
@@ -38,25 +38,17 @@ Starts the server with IP: 168.182.0.1 on port 5555.
 After launching the terminal, go to the directory where you want to install the program and perform the following
 manipulations:
 
-1. Download the repository:
+1. Install Python if it has not been installed before: [Python download link](https://www.python.org/downloads/)
+2. Install Docker if it has not been installed before: [Docker download link](https://www.docker.com/get-started/)
+3. Download the repository:
 ```bash
-git clone https://Exist_Ed@bitbucket.org/coherentprojects/coherent-training-nikolai-kursky.git
+git clone https://github.com/Exist-Ed/remote-execution-project.git
 ```
-2. Install the necessary dependencies:
+4. Build worker image: 
 ```bash
-pip install -r requirements.txt
+cd ./setup
+source ./build_worker_image.sh
 ```
-4. Change the configuration files to specify data input/output formats and where the processed data files are located.
 
-5. Make sure that your cluster is operational and configured (If you want to use it on cluster).
+5. Use the program. Installation is complete
 
-6. Use the program. Installation is complete
-
-# Configuration
-
----
-
-* Specify data input/output formats and where the processed data files are located:
-```bash
-configuration/config.ini
-```
